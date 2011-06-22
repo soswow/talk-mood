@@ -1,0 +1,28 @@
+application: talkmood
+version: 1
+runtime: python
+api_version: 1
+
+builtins:
+- datastore_admin: on
+- appstats: on
+- admin_redirect: on
+
+handlers:
+- url: /admin/
+  script: main.py
+
+- url: /admin/
+  static_dir: static/admin
+  login: admin
+
+- url: /do.*
+  script: main.py
+
+- url: /
+  script: main.py
+
+- url: /
+  static_dir: static
+  
+

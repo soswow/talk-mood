@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>The Simplest Voter</title>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css"/>
+  <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.js"></script>
+  <style type="text/css">
+    SPAN.info {
+      margin-left: 25px;
+      color: #00cc00;
+    }
+    html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6{    
+      -webkit-text-size-adjust:none;
+    }
+  </style>
+  <script>
+//    function jqmSimpleMessage(message) {
+//      $("<div class='ui-loader ui-overlay-shadow ui-body-b ui-corner-all'><h1>" + message + "</h1></div>")
+//              .css({
+//                display: "block",
+//                opacity: 0.96,
+//                top: window.pageYOffset + 100
+//              })
+//              .appendTo("body").delay(500)
+//              .fadeOut(300, function() {
+//                $(this).remove();
+//              });
+//    }
+    var colorAnimationTimeout;
+    function colorAnimate(obj, rgb, modifyFunc, speed, finishFunc) {
+      obj.css('color', 'rgb(' + rgb.join(',') + ')');
+      clearTimeout(colorAnimationTimeout);
+      colorAnimationTimeout = setTimeout(function() {
+        modifyFunc && modifyFunc(rgb);
+        if ($(rgb).filter(function() {
+                  return this >= 0 && this <= 255
+                }).length == 3) {
+          colorAnimate(obj, rgb, modifyFunc, speed, finishFunc);
+        } else {
+          finishFunc && finishFunc(rgb);
+        }
+      }, speed || 10);
+    }
+
+    $(function() {
+      var blinkColors = {
+            red:[
+              [260,0,0],
+              0
+            ],
+            green:[
+              [10,260,10],
+              1
+            ]
+          },
+          color_delta = 10;
+
+      function oneChannelDelta(channelIndex) {
+        return function(rgb) {
+          return rgb[channelIndex] -= color_delta;
+        }
+      }
+
+      $("#content A").each(function() {
+        var that = $(this),
+            initColor = blinkColors[that.attr("blink-color")],
+            modifyFunc = oneChannelDelta(initColor[1]),
+            speed = 50;
+        that.bind("click tap", function() {
+          colorAnimate(that, initColor[0].slice(), modifyFunc, speed);
+          $.get($(this).attr("href"));
+          return false;
+        });
+      });
+    });
+
+  </script>
+</head>
+<body>
+<div data-role="page">
+  <div data-role="header">
+    <h1>Just pick one ... </h1>
+  </div>
+  <div id="content" data-role="content">
+    <div data-role="controlgroup">
+      <a href="/do/vote/like" data-role="button" blink-color="green" data-icon="plus">Like it!</a><!--Good-->
+      <a href="/do/vote/dont-like" data-role="button" blink-color="red" data-icon="minus">Don't like it!</a><!--Bad-->
+    </div>
+  </div>
+  <div data-role="footer" style="text-align: center;">
+    <a href="/admin/" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Admin</a>
+  </div>
+</div>
+</body>
+</html>

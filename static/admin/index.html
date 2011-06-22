@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Votes list</title>
+
+  <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+  <script src="/js/highcharts.js"></script>
+  <script>
+  $(function(){
+    var options = {
+      chart: {
+         renderTo: 'chart'
+      },
+      title: {
+         text: 'All Votes'
+      },
+      xAxis: {
+         type: 'datetime'
+      },
+      series: [{
+         name: 'Score',
+         lineWidth: 4,
+         marker: {
+            radius: 4
+         }
+      }]
+    };
+
+
+    $.getJSON("/do/admin/votes/list",function(data){
+      var avg = 0,
+          accum = 0,
+          last_tm=data[0][0],
+          avg_data=[],
+          period = 5 * 1000;
+
+      for(var i=0; i<data.length; i++){
+        console.log(data[i][0] - last_tm);
+        if(data[i][0] - last_tm > period){
+          last_tm = data[i][0];
+          avg_data.push([last_tm, accum]);
+          accum = 0;
+        }
+        accum += data[i][1];
+      }
+
+      options.series[0].data = avg_data;
+
+      new Highcharts.Chart(options);
+    });
+
+  })
+  </script>
+</head>
+<body>
+<div id="chart">
+</div>
+<a href="/do/logout">Log out.</a>
+</body>
+</html>
