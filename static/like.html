@@ -62,7 +62,9 @@
 
     like.bind("mousedown mouseup touchend touchstart", function(e){
         var opacity = (e.type === "mousedown" || e.type === "touchstart")?1:0.6;
-        $.get("/do/vote/like");
+        if(opacity == 0.6){
+          $.get("/do/vote/like");
+        }
         $(this).css("opacity",opacity);
         return false;
       });
