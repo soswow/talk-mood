@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>The Simplest Voter</title>
+  <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;">
+  <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+  <style type="text/css">
+    SPAN.info {
+      margin-left: 25px;
+      color: #00cc00;
+    }
+    html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6{    
+      -webkit-text-size-adjust:none;
+    }
+    body,html{
+      margin: 0;
+      height:100%; width:100%;
+    }
+    #like{
+      /*width:340px;height:310px;*/
+      position:absolute;
+      /*left:50%;top:50%;*/
+      /*margin-left:-170px;margin-top:-155px;*/
+      opacity: 0.5;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+  $(function(){
+
+    var body = $("body"),
+        like = $("#like");
+
+    function stretchAndCenter(obj, padding){
+      padding = padding || 0;
+      var scrH = body.height()-padding, scrW = body.width()-padding,
+          imgH = obj.height(), imgW = obj.width(),
+          hwProp = imgH / imgW,
+          whProp = imgW / imgH,
+          newImgW, newImgH;
+
+      if(scrH > scrW){
+        newImgH = scrW * hwProp;
+        obj.width(scrW).height(newImgH).css(
+                {
+                  top: scrH/2-newImgH/2+padding/2,
+                  left: padding/2
+                });
+      }else{
+        newImgW = scrH * whProp;
+        obj.height(scrH).width(newImgW).css(
+                {
+                  left: scrW/2-newImgW/2+padding/2,
+                  top: padding/2
+                });
+      }
+    }
+
+    $(window).bind("resize", function(){
+      stretchAndCenter(like,100);
+    }).resize();
+
+    like.bind("mousedown mouseup touchend touchstart", function(e){
+        var opacity = (e.type === "mousedown" || e.type === "touchstart")?1:0.6;
+        $.get("/do/vote/like");
+        $(this).css("opacity",opacity);
+        return false;
+      });
+  });
+  </script>
+</head>
+<body>
+  <input type="image" width="340" height="310" id="like" src="/images/like.png"/>
+</body>
+</html>

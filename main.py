@@ -32,7 +32,7 @@ def main():
             (r'/do/vote/(.*)', VoteHandler),
             (r'/do/admin/votes/list', VoteAdminHandler),
             (r'/admin/', webapp.RedirectHandler.new_factory('/admin/index.html', permanent=True)),
-            (r'.*', webapp.RedirectHandler.new_factory('/index.html', permanent=True))],
+            (r'.*', webapp.RedirectHandler.new_factory('/like.html', permanent=True))],
          debug=True)
     util.run_wsgi_app(application)
 
