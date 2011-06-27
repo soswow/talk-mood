@@ -2,10 +2,7 @@ import com.sun.awt.AWTUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,27 +13,31 @@ import java.util.Date;
 
 public class TalkMood extends ComponentAdapter {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" HH:mm:ss ");
+    private long showEventsSince = System.currentTimeMillis();
+    private JLabel likeCount;
+    private JLabel timeLabel;
 
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) throws Exception {
+        System.setProperty("awt.useSystemAAFontSettings","on");
+        System.setProperty("swing.aatext", "true");
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
         new TalkMood().start();
     }
 
     private void start() {
-        System.setProperty("awt.useSystemAAFontSettings","on");
-        System.setProperty("swing.aatext", "true");
-
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setUndecorated(true);
 
-        final JLabel likeCount = new JLabel("0", loadLikeIcon(), JLabel.LEFT);
+        likeCount = new JLabel("0", loadLikeIcon(), JLabel.LEFT);
         likeCount.setFont(new Font("Helvetica", Font.BOLD, 30));
         likeCount.setOpaque(false);
         likeCount.setForeground(Color.WHITE);
         likeCount.setAlignmentX(Component.CENTER_ALIGNMENT);
         frame.add(likeCount);
 
-        final JLabel timeLabel = new JLabel();
+        timeLabel = new JLabel();
         timeLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
         timeLabel.setOpaque(false);
         timeLabel.setForeground(Color.WHITE);
@@ -44,6 +45,7 @@ public class TalkMood extends ComponentAdapter {
         updateTime(timeLabel);
         frame.add(timeLabel);
 
+        addPopupMenu(frame);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.getContentPane().setBackground(Color.BLACK);
         frame.addComponentListener(new TalkMood());
@@ -67,6 +69,35 @@ public class TalkMood extends ComponentAdapter {
                 updateLikeCount(likeCount);
             }
         }).start();
+    }
+
+    private void addPopupMenu(JFrame frame) {
+        final JPopupMenu menu = new JPopupMenu();
+        JMenuItem item = new JMenuItem("Reset");
+        item.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showEventsSince = System.currentTimeMillis();
+                likeCount.setText("0");
+            }
+        });
+        menu.add(item);
+
+        item = new JMenuItem("Quit");
+        item.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        menu.add(item);
+
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
     }
 
     private void updateTime(JLabel timeLabel) {
