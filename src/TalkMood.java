@@ -45,21 +45,20 @@ public class TalkMood extends ComponentAdapter {
         frame.add(timeLabel);
 
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.setAlwaysOnTop(true);
         frame.getContentPane().setBackground(Color.BLACK);
         frame.addComponentListener(new TalkMood());
         AWTUtilities.setWindowOpacity(frame, 0.5f);
         makeRoundedCorners(frame);
         frame.pack();
+        frame.setFocusableWindowState(false);
+        frame.setAlwaysOnTop(true);
         frame.setVisible(true);
 
         new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateTime(timeLabel);
                 frame.pack();
-                frame.setAlwaysOnTop(false);
-//                frame.toFront();
-                frame.setAlwaysOnTop(true);
+                frame.toFront();
             }
         }).start();
 
