@@ -49,7 +49,8 @@ public class TalkMood extends ComponentAdapter {
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.getContentPane().setBackground(Color.BLACK);
         frame.addComponentListener(new TalkMood());
-        AWTUtilities.setWindowOpacity(frame, 0.5f);
+        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.TRANSLUCENT))
+            AWTUtilities.setWindowOpacity(frame, 0.5f);
         makeRoundedCorners(frame);
         frame.pack();
         frame.setFocusableWindowState(false);
