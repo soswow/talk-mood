@@ -20,7 +20,8 @@ public class TalkMoodLauncher extends ComponentAdapter {
         frame.setAlwaysOnTop(true);
         frame.addComponentListener(new TalkMoodLauncher());
 
-        new TalkMood().start(frame);
+        new TalkMood().start(frame.getContentPane());
+        frame.pack();
 
         if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.TRANSLUCENT))
             AWTUtilities.setWindowOpacity(frame, 0.5f);

@@ -15,7 +15,7 @@ public class TalkMood {
     private JLabel likeCount;
     private JLabel timeLabel;
 
-    public void start(JFrame frame) {
+    public void start(Container frame) {
         likeCount = new JLabel("0", loadLikeIcon(), JLabel.LEFT);
         likeCount.setFont(new Font("Helvetica", Font.BOLD, 30));
         likeCount.setOpaque(false);
@@ -32,14 +32,14 @@ public class TalkMood {
         frame.add(timeLabel);
 
         addPopupMenu(frame);
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.getContentPane().setBackground(Color.BLACK);
-        frame.pack();
+        frame.setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
+        frame.setBackground(Color.BLACK);
 
         new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateTime(timeLabel);
-                ((Window)timeLabel.getTopLevelAncestor()).pack();
+                if (timeLabel.getTopLevelAncestor() instanceof Window)
+                    ((Window)timeLabel.getTopLevelAncestor()).pack();
             }
         }).start();
 
@@ -50,7 +50,7 @@ public class TalkMood {
         }).start();
     }
 
-    private void addPopupMenu(JFrame frame) {
+    private void addPopupMenu(Container frame) {
         final JPopupMenu menu = new JPopupMenu();
         JMenuItem item = new JMenuItem("Reset");
         item.addActionListener(new ActionListener() {
