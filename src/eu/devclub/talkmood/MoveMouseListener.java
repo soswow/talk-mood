@@ -13,6 +13,7 @@ class MoveMouseListener implements MouseListener, MouseMotionListener {
 
   public MoveMouseListener(JComponent target) {
     this.target = target;
+    target.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
   }
 
   public static JFrame getFrame(Container target) {
