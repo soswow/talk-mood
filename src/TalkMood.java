@@ -1,16 +1,13 @@
-import com.sun.awt.AWTUtilities;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TalkMood extends ComponentAdapter {
+public class TalkMood {
     public static final String URL_PREFIX = "http://talkmood.appspot.com";
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" HH:mm:ss ");
@@ -18,19 +15,7 @@ public class TalkMood extends ComponentAdapter {
     private JLabel likeCount;
     private JLabel timeLabel;
 
-    public static void main(String[] args) throws Exception {
-        System.setProperty("awt.useSystemAAFontSettings","on");
-        System.setProperty("swing.aatext", "true");
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        new TalkMood().start();
-    }
-
-    private void start() {
-        final JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setUndecorated(true);
-
+    public void start(JFrame frame) {
         likeCount = new JLabel("0", loadLikeIcon(), JLabel.LEFT);
         likeCount.setFont(new Font("Helvetica", Font.BOLD, 30));
         likeCount.setOpaque(false);
@@ -49,20 +34,12 @@ public class TalkMood extends ComponentAdapter {
         addPopupMenu(frame);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.getContentPane().setBackground(Color.BLACK);
-        frame.addComponentListener(new TalkMood());
-        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.TRANSLUCENT))
-            AWTUtilities.setWindowOpacity(frame, 0.5f);
-        makeRoundedCorners(frame);
         frame.pack();
-        frame.setFocusableWindowState(false);
-        frame.setAlwaysOnTop(true);
-        frame.setVisible(true);
 
         new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateTime(timeLabel);
-                frame.pack();
-                frame.toFront();
+                ((Window)timeLabel.getTopLevelAncestor()).pack();
             }
         }).start();
 
@@ -131,20 +108,6 @@ public class TalkMood extends ComponentAdapter {
         catch (Exception e) {
             JOptionPane.showMessageDialog(likeCount, e.toString());
         }
-    }
-
-    private void makeRoundedCorners(Window w) {
-        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.PERPIXEL_TRANSPARENT))
-            AWTUtilities.setWindowShape(w, new RoundRectangle2D.Float(0, 0, w.getWidth(), w.getHeight(), 7, 7));
-    }
-
-    @Override
-    public void componentResized(ComponentEvent e) {
-        Window w = (Window) e.getComponent();
-        makeRoundedCorners(w);
-//        w.getGraphicsConfiguration().getDevice().set
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        w.setLocation((int)screenSize.getWidth() - w.getWidth() - 30, 30);
     }
 
     protected ImageIcon loadLikeIcon() {

@@ -183,7 +183,7 @@
   <target name="package" depends="all">
       <jar file="talk-mood.jar" basedir="${presenter-status.output.dir}">
           <manifest>
-              <attribute name="Main-Class" value="TalkMood"/>
+              <attribute name="Main-Class" value="TalkMoodLauncher"/>
           </manifest>
       </jar>
   </target>
