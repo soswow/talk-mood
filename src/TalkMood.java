@@ -6,7 +6,6 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -127,6 +126,7 @@ public class TalkMood extends ComponentAdapter {
     public void componentResized(ComponentEvent e) {
         Window w = (Window) e.getComponent();
         makeRoundedCorners(w);
+//        w.getGraphicsConfiguration().getDevice().set
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         w.setLocation((int)screenSize.getWidth() - w.getWidth() - 30, 30);
     }
