@@ -52,8 +52,7 @@ public class TalkMood extends ComponentAdapter {
         frame.addComponentListener(new TalkMood());
         if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.TRANSLUCENT))
             AWTUtilities.setWindowOpacity(frame, 0.5f);
-        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.PERPIXEL_TRANSPARENT))
-            makeRoundedCorners(frame);
+        makeRoundedCorners(frame);
         frame.pack();
         frame.setFocusableWindowState(false);
         frame.setAlwaysOnTop(true);
@@ -135,7 +134,8 @@ public class TalkMood extends ComponentAdapter {
     }
 
     private void makeRoundedCorners(Window w) {
-        AWTUtilities.setWindowShape(w, new RoundRectangle2D.Float(0, 0, w.getWidth(), w.getHeight(), 7, 7));
+        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.PERPIXEL_TRANSPARENT))
+            AWTUtilities.setWindowShape(w, new RoundRectangle2D.Float(0, 0, w.getWidth(), w.getHeight(), 7, 7));
     }
 
     @Override
