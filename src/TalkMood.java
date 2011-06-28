@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TalkMood extends ComponentAdapter {
+    public static final String URL_PREFIX = "http://talkmood.appspot.com";
+
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" HH:mm:ss ");
-    private long showEventsSince = System.currentTimeMillis();
+    private long showEventsSince;
     private JLabel likeCount;
     private JLabel timeLabel;
 
@@ -76,8 +78,7 @@ public class TalkMood extends ComponentAdapter {
         JMenuItem item = new JMenuItem("Reset");
         item.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showEventsSince = System.currentTimeMillis();
-                likeCount.setText("0");
+                resetVotes();
             }
         });
         menu.add(item);
@@ -104,17 +105,31 @@ public class TalkMood extends ComponentAdapter {
         timeLabel.setText(simpleDateFormat.format(new Date()));
     }
 
-    int votes;
     private void updateLikeCount(JLabel likeCount) {
         try {
-            URL url = new URL("http://talkmood.appspot.com/");
+            URL url = new URL(URL_PREFIX + "/do/vote/num/from/" + showEventsSince);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            //likeCount.setText(reader.readLine());
-            likeCount.setText(Integer.toString(votes++));
+            String votes = reader.readLine();
+            if (votes == null || votes.trim().isEmpty()) votes = "0";
+            likeCount.setText(votes);
             reader.close();
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void resetVotes() {
+        try {
+            URL url = new URL(URL_PREFIX + "/do/events/mark");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            System.out.println(reader.readLine());
+            reader.close();
+            showEventsSince = System.currentTimeMillis();
+            likeCount.setText("0");
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(likeCount, e.toString());
         }
     }
 
