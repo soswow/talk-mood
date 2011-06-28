@@ -15,3 +15,6 @@ class Vote(db.Model):
 
     def to_list_json(self):
         return [self.get_created_at_tm(), self.score]
+
+class Event(db.Model):
+    started_at = db.DateTimeProperty(auto_now_add=True)
