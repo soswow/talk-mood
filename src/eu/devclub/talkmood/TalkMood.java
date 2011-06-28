@@ -1,3 +1,5 @@
+package eu.devclub.talkmood;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,7 +18,7 @@ public class TalkMood {
     private JLabel timeLabel;
 
     public void start(Container frame) {
-        likeCount = new JLabel("0", loadLikeIcon(), JLabel.LEFT);
+        likeCount = new JLabel("?", loadLikeIcon(), JLabel.LEFT);
         likeCount.setFont(new Font("Helvetica", Font.BOLD, 30));
         likeCount.setOpaque(false);
         likeCount.setForeground(Color.WHITE);
@@ -87,7 +89,7 @@ public class TalkMood {
             URL url = new URL(URL_PREFIX + "/do/vote/num/from/" + showEventsSince);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String votes = reader.readLine();
-            if (votes == null || votes.trim().isEmpty()) votes = "0";
+            if (votes == null || votes.trim().isEmpty()) votes = "?";
             likeCount.setText(votes);
             reader.close();
         }
@@ -111,7 +113,7 @@ public class TalkMood {
     }
 
     protected ImageIcon loadLikeIcon() {
-        URL url = getClass().getResource("like.png");
+        URL url = getClass().getResource("/like.png");
         ImageIcon icon = new ImageIcon(url);
         icon = new ImageIcon(icon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
         return icon;

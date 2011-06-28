@@ -1,3 +1,5 @@
+package eu.devclub.talkmood;
+
 import com.sun.awt.AWTUtilities;
 
 import javax.swing.*;

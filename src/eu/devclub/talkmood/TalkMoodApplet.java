@@ -1,3 +1,5 @@
+package eu.devclub.talkmood;
+
 import javax.swing.*;
 
 public class TalkMoodApplet extends JApplet {
