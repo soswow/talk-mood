@@ -8,6 +8,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.RoundRectangle2D;
 
+import static com.sun.awt.AWTUtilities.Translucency.PERPIXEL_TRANSPARENT;
+import static com.sun.awt.AWTUtilities.Translucency.TRANSLUCENT;
+
 public class TalkMoodLauncher extends ComponentAdapter {
 
     public static void main(String[] args) throws Exception {
@@ -17,15 +20,20 @@ public class TalkMoodLauncher extends ComponentAdapter {
 
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setUndecorated(true);
-        frame.setFocusableWindowState(false);
+        frame.setUndecorated(false);
+//        frame.setFocusableWindowState(false);
         frame.setAlwaysOnTop(true);
         frame.addComponentListener(new TalkMoodLauncher());
 
-        new TalkMood().start(frame.getContentPane());
+        TalkMood component = new TalkMood();
+        frame.add(component);
         frame.pack();
 
-        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.TRANSLUCENT))
+        MoveMouseListener dragListener = new MoveMouseListener(component);
+        component.addMouseListener(dragListener);
+        component.addMouseMotionListener(dragListener);
+
+        if (AWTUtilities.isTranslucencySupported(TRANSLUCENT))
             AWTUtilities.setWindowOpacity(frame, 0.5f);
         makeRoundedCorners(frame);
 
@@ -33,7 +41,7 @@ public class TalkMoodLauncher extends ComponentAdapter {
     }
 
     private static void makeRoundedCorners(Window w) {
-        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.PERPIXEL_TRANSPARENT))
+        if (AWTUtilities.isTranslucencySupported(PERPIXEL_TRANSPARENT))
             AWTUtilities.setWindowShape(w, new RoundRectangle2D.Float(0, 0, w.getWidth(), w.getHeight(), 7, 7));
     }
 

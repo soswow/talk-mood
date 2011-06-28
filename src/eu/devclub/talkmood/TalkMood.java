@@ -9,7 +9,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TalkMood {
+public class TalkMood extends JPanel {
     public static final String URL_PREFIX = "http://talkmood.appspot.com";
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" HH:mm:ss ");
@@ -17,13 +17,17 @@ public class TalkMood {
     private JLabel likeCount;
     private JLabel timeLabel;
 
-    public void start(Container frame) {
+    public TalkMood() {
+        init();
+    }
+
+    private void init() {
         likeCount = new JLabel("?", loadLikeIcon(), JLabel.LEFT);
         likeCount.setFont(new Font("Helvetica", Font.BOLD, 30));
         likeCount.setOpaque(false);
         likeCount.setForeground(Color.WHITE);
         likeCount.setAlignmentX(Component.CENTER_ALIGNMENT);
-        frame.add(likeCount);
+        add(likeCount);
 
         timeLabel = new JLabel();
         timeLabel.setFont(new Font("Helvetica", Font.BOLD, 16));
@@ -31,11 +35,11 @@ public class TalkMood {
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         updateTime(timeLabel);
-        frame.add(timeLabel);
+        add(timeLabel);
 
-        addPopupMenu(frame);
-        frame.setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
-        frame.setBackground(Color.BLACK);
+        addPopupMenu(this);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(Color.BLACK);
 
         new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
