@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="presenter-status" default="all">
+  
+  
+  <property file="presenter-status.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.ear"/>
+    <include name="*.zip"/>
+    <include name="*.swc"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
+  <path id="jdk.classpath.1.6">
+    <fileset dir="${jdk.home.1.6}">
+      <include name="../java-6-sun/jre/lib/jce.jar"/>
+      <include name="../java-6-sun/jre/lib/charsets.jar"/>
+      <include name="../java-6-sun/jre/lib/jsse.jar"/>
+      <include name="../java-6-sun/jre/lib/alt-string.jar"/>
+      <include name="../java-6-sun/jre/lib/resources.jar"/>
+      <include name="../java-6-sun/jre/lib/rt.jar"/>
+      <include name="../java-6-sun/jre/lib/deploy.jar"/>
+      <include name="../java-6-sun/jre/lib/javaws.jar"/>
+      <include name="../java-6-sun/jre/lib/plugin.jar"/>
+      <include name="../java-6-sun/jre/lib/alt-rt.jar"/>
+      <include name="../java-6-sun/jre/lib/management-agent.jar"/>
+      <include name="../java-6-sun/jre/lib/ext/sunjce_provider.jar"/>
+      <include name="../java-6-sun/jre/lib/ext/dnsns.jar"/>
+      <include name="../java-6-sun/jre/lib/ext/sunpkcs11.jar"/>
+      <include name="../java-6-sun/jre/lib/ext/localedata.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.6}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
+  
+  
+  <!-- Global Libraries -->
+  
+  
+  <!-- Application Server Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module presenter-status -->
+  
+  <dirname property="module.presenter-status.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.presenter-status" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.presenter-status" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.presenter-status" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.presenter-status" value="${compiler.args}"/>
+  
+  <property name="presenter-status.output.dir" value="${module.presenter-status.basedir}/out/production/presenter-status"/>
+  <property name="presenter-status.testoutput.dir" value="${module.presenter-status.basedir}/out/test/presenter-status"/>
+  
+  <path id="presenter-status.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="presenter-status.module.production.classpath">
+    <path refid="${module.jdk.classpath.presenter-status}"/>
+  </path>
+  
+  <path id="presenter-status.runtime.production.module.classpath">
+    <pathelement location="${presenter-status.output.dir}"/>
+  </path>
+  
+  <path id="presenter-status.module.classpath">
+    <path refid="${module.jdk.classpath.presenter-status}"/>
+    <pathelement location="${presenter-status.output.dir}"/>
+  </path>
+  
+  <path id="presenter-status.runtime.module.classpath">
+    <pathelement location="${presenter-status.testoutput.dir}"/>
+    <pathelement location="${presenter-status.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.presenter-status">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.presenter-status">
+    <patternset refid="excluded.from.module.presenter-status"/>
+  </patternset>
+  
+  <path id="presenter-status.module.sourcepath">
+    <dirset dir="${module.presenter-status.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.presenter-status" depends="compile.module.presenter-status.production,compile.module.presenter-status.tests" description="Compile module presenter-status"/>
+  
+  <target name="compile.module.presenter-status.production" description="Compile module presenter-status; production classes">
+    <mkdir dir="${presenter-status.output.dir}"/>
+    <javac destdir="${presenter-status.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.presenter-status}/javac">
+      <compilerarg line="${compiler.args.presenter-status}"/>
+      <bootclasspath refid="presenter-status.module.bootclasspath"/>
+      <classpath refid="presenter-status.module.production.classpath"/>
+      <src refid="presenter-status.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.presenter-status"/>
+    </javac>
+    
+    <copy todir="${presenter-status.output.dir}">
+      <fileset dir="${module.presenter-status.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.presenter-status.tests" depends="compile.module.presenter-status.production" description="compile module presenter-status; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.presenter-status" description="cleanup module">
+    <delete dir="${presenter-status.output.dir}"/>
+    <delete dir="${presenter-status.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.presenter-status" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.presenter-status" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+
+  <target name="package" depends="all">
+      <jar file="talk-mood.jar" basedir="${presenter-status.output.dir}">
+          <manifest>
+              <attribute name="Main-Class" value="eu.devclub.talkmood.TalkMoodLauncher"/>
+          </manifest>
+      </jar>
+  </target>
+</project>
