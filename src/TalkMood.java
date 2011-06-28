@@ -52,7 +52,8 @@ public class TalkMood extends ComponentAdapter {
         frame.addComponentListener(new TalkMood());
         if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.TRANSLUCENT))
             AWTUtilities.setWindowOpacity(frame, 0.5f);
-        makeRoundedCorners(frame);
+        if (AWTUtilities.isTranslucencySupported(AWTUtilities.Translucency.PERPIXEL_TRANSPARENT))
+            makeRoundedCorners(frame);
         frame.pack();
         frame.setFocusableWindowState(false);
         frame.setAlwaysOnTop(true);
