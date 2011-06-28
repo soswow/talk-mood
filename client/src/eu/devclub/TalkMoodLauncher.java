@@ -1,4 +1,4 @@
-package eu.devclub.talkmood;
+package eu.devclub;
 
 import com.sun.awt.AWTUtilities;
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="talk-mood-client" default="package">
+  <property name="presenter-status.output.dir" value="${basedir}/out/production/presenter-status"/>
+
+  <target name="compile" description="Compile module presenter-status; production classes">
+    <mkdir dir="${presenter-status.output.dir}"/>
+    <javac destdir="${presenter-status.output.dir}" srcdir="src">
+    </javac>
+    
+    <copy todir="${presenter-status.output.dir}">
+      <fileset dir="src" excludes="**/*.java"/>
+    </copy>
+  </target>
+  
+  <target name="clean" description="cleanup module">
+    <delete dir="${presenter-status.output.dir}"/>
+  </target>
+  
+  <target name="all" depends="clean,compile" description="build all"/>
+
+  <target name="package" depends="all">
+      <jar file="talk-mood.jar" basedir="${presenter-status.output.dir}">
+          <manifest>
+              <attribute name="Main-Class" value="eu.devclub.TalkMoodLauncher"/>
+          </manifest>
+      </jar>
+  </target>
+</project>
